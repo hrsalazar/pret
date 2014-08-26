@@ -1,0 +1,9 @@
+<ion-view title="Footprints">
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-item ng-repeat="footprint in footprints" type="item-text-wrap" href="#/tab/footprint/{{footprint.id}}">
+        {{footprint.name}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
