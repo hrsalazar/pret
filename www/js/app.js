@@ -6,7 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'firebase', 'leaflet-directive', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -37,6 +37,18 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
       templateUrl: "templates/tabs.html"
     })
 
+    .state('login', {
+      url: "/login",
+      templateUrl: "templates/login.html",
+      controller: 'LoginCtrl'
+    })
+
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'templates/signup.html',
+      controller: 'SignupCtrl'
+    })
+
     // Each tab has its own nav history stack:
 
     .state('tab.dash', {
@@ -58,6 +70,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
         }
       }
     })
+
     .state('tab.footprint-detail', {
       url: '/footprint/:footprintId',
       views: {
@@ -76,9 +89,44 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
           controller: 'AccountCtrl'
         }
       }
+    })
+
+    // the pet tab has its own child nav-view and history
+    .state('home_landing', {
+      url: '/home',
+      templateUrl: 'templates/home.html',
+      controller: 'HomeCtrl'
     });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/home');
 
+})
+
+.run(function($rootScope, $firebaseSimpleLogin, $state, $window) {
+
+  var dataRef = new Firebase("https://footpet.firebaseio.com/");
+  var loginObj = $firebaseSimpleLogin(dataRef);
+
+  loginObj.$getCurrentUser().then(function(user) {
+    if(!user){ 
+      // Might already be handled by logout event below
+      $state.go('login');
+    }
+  }, function(err) {
+  });
+
+  $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
+    $state.go('home_landing');
+  });
+
+  $rootScope.$on('$firebaseSimpleLogin:logout', function(e, user) {
+    console.log($state);
+    $state.go('login');
+  });
+
+  // Log any login-related errors to the console
+  $rootScope.$on("$firebaseSimpleLogin:error", function(event, error) {
+    console.log("Error logging user in: ", error);
+  });
 });
