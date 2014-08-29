@@ -6,7 +6,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'firebase', 'leaflet-directive', 'starter.controllers', 'starter.services'])
+angular.module('pret', ['ionic', 'firebase', 'leaflet-directive', 'pret.controllers', 'pret.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -105,7 +105,7 @@ angular.module('starter', ['ionic', 'firebase', 'leaflet-directive', 'starter.co
 
 .run(function($rootScope, $firebaseSimpleLogin, $state, $window) {
 
-  var dataRef = new Firebase("https://footpet.firebaseio.com/");
+  var dataRef = new Firebase("https://foot-pet.firebaseio.com/");
   var loginObj = $firebaseSimpleLogin(dataRef);
 
   loginObj.$getCurrentUser().then(function(user) {
@@ -117,7 +117,7 @@ angular.module('starter', ['ionic', 'firebase', 'leaflet-directive', 'starter.co
   });
 
   $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
-    $state.go('home_landing');
+    $state.go('tab.dash');
   });
 
   $rootScope.$on('$firebaseSimpleLogin:logout', function(e, user) {
@@ -129,4 +129,5 @@ angular.module('starter', ['ionic', 'firebase', 'leaflet-directive', 'starter.co
   $rootScope.$on("$firebaseSimpleLogin:error", function(event, error) {
     console.log("Error logging user in: ", error);
   });
+  
 });

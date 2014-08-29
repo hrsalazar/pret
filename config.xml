@@ -2,10 +2,10 @@
 <widget id="com.ionicframework.pret649736" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>pret</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Hybrid application to mark lost pets' virtual footprints
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="hector.sa@gmail.com" href="http://hrsalazar.com/">
+      hrsalazar.com
     </author>
   <content src="index.html"/>
   <access origin="*"/>
